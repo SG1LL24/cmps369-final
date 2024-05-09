@@ -1,0 +1,69 @@
+extends layout.pug 
+
+block content
+    nav.navbar.navbar-expand-sm.navbar-dark.bg-primary
+        ul.navbar-nav 
+            if user 
+                a.btn.btn-sm.btn-outline-light.ms-1(href="/logout") Log out 
+                span.text-white.mt-1
+                    span.ms-2 #{user.firstname} #{user.lastname} 
+            else 
+                button.btn.btn-sm.btn-outline-light.ms-1(type="button") Log in 
+        ul.navbar-nav.ms-auto
+            a.btn.btn-sm.btn-danger.me-1(href="/") Cancel
+    .container.pt-5
+        .row.justify-content-center 
+            .col.col-xs-12.col-md-9.col-lg-7
+                if contact 
+                    .card.shadow.mb-5
+                        .card-header.bg-primary.text-white
+                            h2.display-4.text-center Update Contact 
+                        .card-body
+                            form(action="/edit/"+contact.id, method="post")
+                                fieldset.form-group.border.p-3.rounded   
+                                    legend.w-auto.p-2 Basic Info 
+                                    section.bg-light.p-2
+                                        label.form-label(for="first") First Name: 
+                                        br
+                                        input#first.form-control.w-75(type="text", name="first", value=contact.firstname)
+                                    section.bg-light.p-2
+                                        label.form-label(for="last") Last Name: 
+                                        br
+                                        input#last.form-control.w-75(type="text", name="last", value=contact.lastname)
+                                    section.bg-light.p-2 
+                                        label.form-label(for="title") Title: 
+                                        br
+                                        input#title.form-control.w-75(type="text", name="title", value=contact.title)
+                                    section.bg-light.p-2 
+                                        label.form-label(for="address") Address:  
+                                        br
+                                        input#address.form-control.w-75(type="text", name="address", value=contact.address)
+                                    section.bg-light.p-2
+                                        label.form-label(for="phone") Phone: 
+                                        br
+                                        input#phone.form-control.w-75(type="tel", name="phone", value=contact.phone)
+                                    section.bg-light.p-2
+                                        label.form-label(for="email") Email: 
+                                        br
+                                        input#email.form-control.w-75(type="email", name="email", value=contact.email)  
+                                fieldset.form-group.border.p-3.rounded.mt-3 
+                                    legend.w-auto.p-2 Contact Preferences
+                                    section.bg-light.p-2 
+                                        if contact.contact_by_mail === 0
+                                            input.form-check-input(type="checkbox", name="contact_by_mail", checked=false)
+                                        else 
+                                            input.form-check-input(type="checkbox", name="contact_by_mail", checked=true)
+                                        label.form-check-label(for="contact_by_mail") Contact by mail 
+                                    section.bg-light.p-2 
+                                        if contact.contact_by_phone === 0
+                                            input.form-check-input(type="checkbox", name="contact_by_phone", checked=false)
+                                        else 
+                                            input.form-check-input(type="checkbox", name="contact_by_phone", checked=true)
+                                        label.form-check-label(for="contact_by_phone") Contact by phone
+                                    section.bg-light.p-2 
+                                        if contact.contact_by_email === 0
+                                            input.form-check-input(type="checkbox", name="contact_by_email", checked=false)
+                                        else 
+                                            input.form-check-input(type="checkbox", name="contact_by_email", checked=true)
+                                        label.form-check-label(for="contact_by_email") Contact by email
+                                button.btn.btn-outline-success.mt-2(type="submit") Save

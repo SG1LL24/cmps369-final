@@ -1,0 +1,147 @@
+extends layout.pug 
+
+block content 
+    nav.navbar.navbar-expand-sm.navbar-dark.bg-primary 
+        ul.navbar-nav#navlistleft
+            if user
+                button.btn.btn-sm.btn-outline-light.ms-1#logoutbutton(type="button", onclick="logout()") Log out
+                span.text-white.mt-1
+                    span.ms-2 #{user.firstname} #{user.lastname} 
+            else
+                button.btn.btn-sm.btn-outline-light.ms-1#loginbutton(type="button", onclick="loadLogin()") Log in
+        ul.navbar-nav.ms-auto
+            button.btn.btn-sm.btn-outline-light.me-1#createbutton(type="button", onclick="loadCreate()") Create new contact
+            button.btn.btn-sm.btn-danger.me-1#cancelbutton(type="button", onclick="init()")  Cancel
+    .container.pt-5
+        section#all 
+            .row.justify-content-center 
+                .col.col-xs-8.col-md-10.col-lg-12 
+                    .card.shadow.mb-5
+                        .card-header.bg-primary.text-white
+                            h1.display-4 Contact List 
+                        .card-body
+                            .table-responsive-sm
+                                table.table.table-bordered.table-hover
+                                    thead.table-primary
+                                        tr
+                                            th Name 
+                                            th Address
+                                            th Email 
+                                            th Phone 
+                                            th Contact
+                                    tbody
+                            .row.justify-content-center
+                                .col.col-6#map-container
+                                    .col#map
+        section#create
+            .row.justify-content-center  
+                .col.col-xs-12.col-md-9.col-lg-7
+                    .card.shadow.mb-5 
+                        .card-header.bg-primary.text-white
+                            h2.display-4.text-center Create Contact 
+                        .card-body
+                            form.form#fgCreate
+                                fieldset.form-group.border.p-3.rounded
+                                    legend.w-auto.p-2 Basic Info 
+                                    section.bg-light.p-2
+                                        label.form-label(for="first") First Name: 
+                                        br
+                                        input#first.form-control.w-75(type="text", name="first")
+                                    section.bg-light.p-2
+                                        label.form-label(for="last") Last Name: 
+                                        br
+                                        input#last.form-control.w-75(type="text", name="last")
+                                    section.bg-light.p-2 
+                                        label.form-label(for="title") Title: 
+                                        br
+                                        input#title.form-control.w-75(type="text", name="title")
+                                    section.bg-light.p-2 
+                                        label.form-label(for="address") Address:  
+                                        br
+                                        input#address.form-control.w-75(type="text", name="address")
+                                    section.bg-light.p-2
+                                        label.form-label(for="phone") Phone: 
+                                        br
+                                        input#phone.form-control.w-75(type="tel", name="phone")
+                                    section.bg-light.p-2
+                                        label.form-label(for="email") Email: 
+                                        br
+                                        input#email.form-control.w-75(type="email", name="email")  
+                                fieldset.form-group.border.p-3.rounded.mt-3 
+                                    legend.w-auto.p-2 Contact Preferences 
+                                    section.bg-light
+                                        input#canMail.form-check-input(type="checkbox", name="contact_by_mail")
+                                        label.form-check-label(for="canMail") Contact by mail
+                                    section.bg-light
+                                        input#canCall.form-check-input(type="checkbox", name="contact_by_phone")
+                                        label.form-check-label(for="canCall") Contact by phone
+                                    section.bg-light
+                                        input#canEmail.form-check-input(type="checkbox", name="contact_by_email")
+                                        label.form-check-label(for="canEmail") Contact by email
+                                button.btn.btn-outline-primary.mt-2(type="button", onclick="createContact()") Add
+        section#signup
+            .row.justify-content-center 
+                .col.col-xs-12.col-lg-8
+                    .card.shadow.mb-5
+                        .card-header.bg-primary.text-white
+                            h2.display-4 Sign up 
+                        .card-body 
+                            p Please select a username, and a password. Don't worry about any password rules here, we don't really care much about protecting your information - so 
+                                span 
+                                    code helloworld
+                                span  is just fine by us!
+                            .form-group#fgSignup
+                                section.bg-light.p-2
+                                    label.form-label(for="userFirst") First Name: 
+                                    br
+                                    input#userFirst.form-control.w-75(type="text", name="firstname" required)
+                                section.bg-light.p-2.pb-3
+                                    label.form-label(for="userLast") Last Name: 
+                                    br
+                                    input#userLast.form-control.w-75(type="text", name="lastname" required)
+                                hr
+                                section.bg-light.p-2
+                                    label.form-label(for="userUser") Username: 
+                                    br
+                                    input#userUser.form-control.w-75(type="text", name="username" required)
+                                section.bg-light.p-2
+                                    label.form-label(for="passwordUser1") Password:
+                                    br
+                                    input#passwordUser1.form-control.w-75(type="password", name="password" required)
+                                section.bg-light.p-2.pb-3
+                                    label.form-label(for="passwordUser2") Confirm Password:
+                                    br
+                                    input#passwordUser2.form-control.w-75(type="password", name="password2" required)
+                                hr
+                                section.bg-light.p-2
+                                    button.btn.btn-outline-success(type="button", onclick="signup()") Sign Up 
+                                section.bg-light.p-2
+                                    p.pt-2 Already have an account?
+                                        span    
+                                            button.btn.btn-outline-dark(type="button", onclick="loadLogin()")  Log in here!
+        section#login
+            .row.justify-content-center 
+                .col.col-xs-12.col-lg-9
+                    .card.shadow
+                        .card-header.bg-primary.text-white
+                            h2.display-4 Sign in
+                        .card-body
+                            .form-group#fgLogin
+                                section.bg-light.p-2
+                                    label.form-label(for="usernameLogin") Username: 
+                                    br
+                                    input#usernameLogin.form-control.w-50(type="text", name="username")
+                                section.bg-light.p-2
+                                    label.form-label.pt-2(for="passwordLogin") Password:
+                                    br
+                                    input#passwordLogin.form-control.w-50(type="password", name="password")
+                                section.bg-light.p-2.pb-3
+                                    button.btn.btn-outline-success(type="button", onclick="login()") Sign In 
+                                section.bg-light.p-2
+                                    p Don't have an account yet?  
+                                        span
+                                            button.btn.btn-outline-dark(type="button", onclick="loadSignup()")  Sign up here!
+    script(src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js")
+    script(src="/contact.js")
+    script.
+        init();

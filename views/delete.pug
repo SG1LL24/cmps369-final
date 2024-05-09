@@ -1,0 +1,58 @@
+extends layout.pug 
+
+block content
+    nav.navbar.navbar-expand-sm.navbar-dark.bg-primary
+        ul.navbar-nav 
+            if user
+                a.btn.btn-sm.btn-outline-light.ms-1(href="/logout") Log out 
+                span.text-white.mt-1
+                    span.ms-2 #{user.firstname} #{user.lastname} 
+            else 
+                button.btn.btn-sm.btn-outline-light.ms-1(type="button") Log in 
+        ul.navbar-nav.ms-auto
+            a.btn.btn-sm.btn-danger.me-1(href="/") Cancel
+    .container.pt-5
+        .row.justify-content-center
+            .col.col-xs-12.col-md-10.col-lg-9
+                if contact
+                    .card.shadow
+                        .card-header.bg-primary.text-white
+                            h2.display-4.text-center Delete Contact
+                        .card-body
+                            h2 #{contact.title} #{contact.firstname} #{contact.lastname}
+                            p.alert.alert-danger.w-75 Are you sure you want to delete this contact?
+                            hr
+                            p 
+                                b Address: 
+                                section 
+                                    span #{contact.address}
+                                if contact.contact_by_mail === 0
+                                    p 
+                                        i May NOT be contacted by mail
+                                else 
+                                    p 
+                                        i May be contacted by mail 
+                            hr
+                            p 
+                                b Phone Number: 
+                                span #{contact.phone}
+                                if contact.contact_by_phone === 0
+                                    p 
+                                        i May NOT be contacted by phone or text
+                                else 
+                                    p 
+                                        i May be contacted by phone or text
+                            hr
+                            p 
+                                b Email Address: 
+                                span #{contact.email}
+                                if contact.contact_by_email === 0
+                                    p 
+                                        i May NOT be contacted by email
+                                else 
+                                    p 
+                                        i May be contacted by email 
+                            hr
+                            form(action="/delete/"+contact.id, method="post")
+                                .form-group
+                                    button(type="submit").btn.btn-outline-success.mt-2 Yes!

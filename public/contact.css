@@ -1,0 +1,35 @@
+#map-container { 
+    position:relative; 
+    height:600px; 
+    width:800px;
+    margin-top: 20px;
+    margin-bottom: 2rem; 
+    margin-right: 20px;
+} 
+
+#map { 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 100%; 
+}
+
+@media (width < 996px) {
+    #map-container {
+        position: relative;
+        margin-top: 20px;
+        height: 400px;
+        width: 400px;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (width < 480px) {
+    #map-container {
+        position: relative;
+        margin-top: 20px;
+        height: 250px;
+        width: 250px;
+        margin-bottom: 2rem;
+    }
+}
